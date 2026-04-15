@@ -22,7 +22,7 @@ class PickleballAnalyzer {
      * Build the analysis prompt based on configuration
      */
     buildPrompt(config) {
-        const { playerPosition, skillLevel, focusAreas } = config;
+        const { courtSide, courtPosition, skillLevel, focusAreas } = config;
 
         const skillDescriptions = {
             beginner: 'beginner (1.0-2.5 rating) who is still learning fundamental mechanics',
@@ -31,13 +31,20 @@ class PickleballAnalyzer {
             pro: 'professional-level player (5.0+) seeking elite-level optimization'
         };
 
-        const positionInstructions = {
-            auto: 'Analyze all visible players and provide general feedback.',
-            near: 'Focus on the player on the near side (bottom of the screen/closer to camera).',
-            far: 'Focus on the player on the far side (top of the screen/farther from camera).',
-            left: 'Focus on the left-side player.',
-            right: 'Focus on the right-side player.'
-        };
+        // Build player focus instruction from both dimensions
+        let playerFocus;
+        const sideDesc = { near: 'near side (bottom of screen/closer to camera)', far: 'far side (top of screen/farther from camera)' };
+        const posDesc = { left: 'left-side', right: 'right-side' };
+
+        if (courtSide !== 'auto' && courtPosition !== 'auto') {
+            playerFocus = `Focus on the ${posDesc[courtPosition]} player on the ${sideDesc[courtSide]}.`;
+        } else if (courtSide !== 'auto') {
+            playerFocus = `Focus on the player on the ${sideDesc[courtSide]}.`;
+        } else if (courtPosition !== 'auto') {
+            playerFocus = `Focus on the ${posDesc[courtPosition]} player.`;
+        } else {
+            playerFocus = 'Analyze all visible players and provide general feedback.';
+        }
 
         let focusInstructions = '';
         if (focusAreas && focusAreas.length > 0) {
@@ -48,7 +55,7 @@ class PickleballAnalyzer {
 
 PLAYER CONTEXT:
 - Skill Level: ${skillDescriptions[skillLevel] || skillDescriptions.intermediate}
-- Player Focus: ${positionInstructions[playerPosition] || positionInstructions.auto}
+- Player Focus: ${playerFocus}
 ${focusInstructions}
 
 ANALYSIS INSTRUCTIONS:

@@ -587,7 +587,8 @@ async function analyzeVideo() {
 
     // Get configuration
     const config = {
-        playerPosition: document.getElementById('playerPosition').value,
+        courtSide: document.getElementById('courtSide').value,
+        courtPosition: document.getElementById('courtPosition').value,
         skillLevel: document.getElementById('skillLevel').value,
         focusAreas: Array.from(document.querySelectorAll('input[name="focus"]:checked'))
             .map(cb => cb.value)

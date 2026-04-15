@@ -197,11 +197,17 @@
                     <h4>Analysis Configuration</h4>
                     <div class="config-options">
                         <div class="config-group">
-                            <label for="playerPosition">Which player are you?</label>
-                            <select id="playerPosition">
-                                <option value="auto">Auto-detect / All players</option>
+                            <label for="courtSide">Which side of the court?</label>
+                            <select id="courtSide">
+                                <option value="auto">Auto-detect</option>
                                 <option value="near">Near side (bottom of screen)</option>
                                 <option value="far">Far side (top of screen)</option>
+                            </select>
+                        </div>
+                        <div class="config-group">
+                            <label for="courtPosition">Left or right player?</label>
+                            <select id="courtPosition">
+                                <option value="auto">Auto-detect</option>
                                 <option value="left">Left side player</option>
                                 <option value="right">Right side player</option>
                             </select>
